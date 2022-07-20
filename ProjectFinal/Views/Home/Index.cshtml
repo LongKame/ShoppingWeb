@@ -1,0 +1,39 @@
+﻿@model List<ProjectFinal.Models.Product>
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+
+
+<div id="content" class="wrapper" style="margin-top: 20px; margin-left: 400px">
+    @foreach (Product p in Model)
+    {
+        <div class="item">
+            <img class="lazy" src="@p.Image" alt="" />
+            <div>
+                <a href="#"><i style="font-size:40px" class="fa">&#xf08a;</i></a>
+                <a href="#"><i style="font-size:40px" class="fa">&#xf06e;</i></a>
+                <a href="/Home/Detail/@p.Id"><i class="text">@p.ProductName</i></a>
+            </div>
+        </div>
+    }
+</div>
+
+
+
+<!-- Paging -->
+<div style="margin-left: 650px;">
+    <nav aria-label="...">
+        <ul class="pagination">
+            <li class="page-item disabled">
+                <span class="page-link">Previous</span>
+            </li>
+            <li class="page-item"><a class="page-link" href="#">1</a></li>
+            <li class="page-item"><a class="page-link" href="#">2</a></li>
+            <li class="page-item"><a class="page-link" href="#">3</a></li>
+            <li class="page-item">
+                <a class="page-link" href="#">Next</a>
+            </li>
+        </ul>
+    </nav>
+</div>

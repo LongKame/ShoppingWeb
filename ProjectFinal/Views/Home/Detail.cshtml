@@ -1,0 +1,146 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    ViewData["Title"] = "Home Page";
+}
+@using ProjectFinal.Models
+@model Product
+
+<div id="content" class=""
+     style="background-color: #39afd3; margin-top: 20px; margin-left: 200px; width: 70%;height: 450px;">
+    @if (Model == null)
+    {
+        <h3>Product is not exist</h3>
+    }
+    else
+    {
+        <div class="row">
+            <div class="column">
+                <img class="lazy" src="@Model.Image" alt="" />
+            </div>
+            <div class="column">
+                <form action="/Home/Cart" method="">
+                    <input type="hidden" value="@Model.Id" name="cart.Id" />
+                    <h3 style="color: orangered;">Name of product: @Model.ProductName</h3>
+                    <h3 style="color: orangered;">Price: $@Model.Price</h3>
+                    <h3 style="color: orangered;">Quantity: </h3>
+                    <div class="value-button" id="decrease" onclick="decreaseValue()" value="Decrease Value">-</div>
+                    <input type="number" id="number" name="cart.Quantity" value="1" />
+                    <div class="value-button" id="increase" onclick="increaseValue()" value="Increase Value">+</div>
+                    <h3 style="color: orangered;">Description: @Model.Description</h3>
+                    <input type="submit" class="btn btn-danger" value="Add to cart" />
+                </form>
+            </div>
+        </div>
+    }
+</div>
+
+
+<script>
+    function increaseValue() {
+        var value = parseInt(document.getElementById('number').value, 10);
+        value = isNaN(value) ? 0 : value;
+        value++;
+        document.getElementById('number').value = value;
+    }
+
+    function decreaseValue() {
+        var value = parseInt(document.getElementById('number').value, 10);
+        value = isNaN(value) ? 0 : value;
+        value < 1 ? value = 1 : '';
+        value--;
+        document.getElementById('number').value = value;
+    }
+</script>
+
+
+<style>
+        /** {
+          box-sizing: border-box;
+        }*/
+
+        .column {
+            float: left;
+            width: 50%;
+            padding: 10px;
+            height: 300px;
+        }
+
+        .row:after {
+            content: "";
+            display: table;
+            clear: both;
+        }
+
+        /* form {
+            width: 300px;
+            margin: 0 auto;
+            text-align: center;
+            padding-top: 50px;
+        }
+    */
+
+
+
+        .value-button {
+            display: inline-block;
+            border: 1px solid #ddd;
+            margin: 0px;
+            width: 40px;
+            height: 40px;
+            text-align: center;
+            vertical-align: bottom;
+            padding: 11px 0;
+            background: #eee;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -khtml-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            text-align: center;
+        }
+
+            .value-button:hover {
+                cursor: pointer;
+            }
+
+        form #decrease {
+            margin-right: -4px;
+            border-radius: 8px 0 0 8px;
+        }
+
+        form #increase {
+            margin-left: -4px;
+            border-radius: 0 8px 8px 0;
+        }
+
+        form #input-wrap {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        input#number {
+            text-align: center;
+            border: none;
+            border-top: 1px solid #ddd;
+            border-bottom: 1px solid #ddd;
+            margin: 0px;
+            width: 40px;
+            height: 40px;
+        }
+
+        input[type=number]::-webkit-inner-spin-button,
+        input[type=number]::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        .row .column .lazy {
+            border-radius: 10px;
+            margin-left: 10px;
+            height: 150%;
+            /*width: 60%;*/
+        }
+</style>

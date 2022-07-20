@@ -1,0 +1,48 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    ViewData["Title"] = "Home Page";
+}
+@using ProjectFinal.Models
+@model List<Product>
+
+<style>
+    table {
+        font-family: arial, sans-serif;
+        border-collapse: collapse;
+        width: 80%;
+        margin-top: 10%;
+        margin-left: 20%;
+    }
+
+    td, th {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
+    }
+
+    tr:nth-child(even) {
+        background-color: #dddddd;
+    }
+</style>
+
+<table>
+    <tr>
+        <th>Product Name</th>
+        <th>Image</th>
+        <th>Quantity</th>
+        <th>Price</th>
+        <th>Action</th>
+    </tr>
+    @foreach (Product p in Model)
+    {
+        <tr>
+            <td>@p.ProductName</td>
+            <td><img src="@p.Image" width="50" height="60"></td>
+            <td>@p.Quantity</td>
+            <td>@p.Price</td>
+            <td><a href="/Home/RemoveCart/@p.Id">Remove</a></td>
+        </tr>
+    }
+</table>
