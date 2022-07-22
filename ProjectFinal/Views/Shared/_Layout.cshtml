@@ -1,4 +1,7 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor Accessor
+@{string? username = Accessor.HttpContext.Session.GetString("username"); }
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -238,32 +241,39 @@
                         <div class="collapse navbar-collapse" id="navbarSupportedContent">
                             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                                 <li class="nav-item">
-                                    <a class="nav-link active" href="home.html">Home<i class="fa">&#xf015;</i></a>
+                                    <a class="nav-link active" href="/Home/Index">Home<i class="fa">&#xf015;</i></a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="cart.html">
+                                    <a class="nav-link" href="/Home/ViewCart">
                                         Cart<i class="fa">&#xf07a;</i>
                                         <span class='badge badge-warning' id='lblCartCount'> 5 </span>
                                     </a>
                                 </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="signinup.html">Signin<i class="fa fa-sign-in"></i></a>
-                                </li>
+                                @if (username == null)
+                                {
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="/Home/Login">SignIn<i class="fa fa-sign-in"></i></a>
+                                    </li>
+                                }
 
-                                <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                                       data-bs-toggle="dropdown" aria-expanded="false">
-                                        Category
-                                    </a>
-                                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                        <li><a class="dropdown-item" href="#">Action</a></li>
-                                        <li><a class="dropdown-item" href="#">Another action</a></li>
-                                        <li><a class="dropdown-item" href="#">Something else here</a></li>
-                                    </ul>
-                                </li>
+                                @if (username != null)
+                                {
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="/Home/Login">Welcome<i class="fa fa-sign-in"></i></a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="/Home/Login">SignOut<i class="fa fa-sign-in"></i></a>
+                                    </li>
+                                }
+                                @if (username == "Admin")
+                                {
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="/Home/CRUD">CRUD<i class="fa fa-tasks"></i></a>
+                                    </li>
+                                }
                             </ul>
-                            <form class="d-flex">
-                                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                            <form class="d-flex" action="/Home/Search">
+                                <input class="form-control me-2" type="search" name="search" placeholder="Search" aria-label="Search">
                                 <button class="btn btn-outline-success" st type="submit">Search</button>
                             </form>
                         </div>
@@ -289,61 +299,6 @@
             @RenderBody()
         </main>
     </div>
-
-    @*<footer class="border-top footer text-muted">
-
-            <div style="background-color: #063970;">
-                <footer class="page-footer font-small pt-4">
-                    <div class="container-fluid text-center text-md-left">
-                        <div class="row">
-                            <div class="col-md-6 mt-md-0 mt-3">
-                                <h5 class="text-uppercase">Footer Content</h5>
-                                <p>Here you can use rows and columns to organize your footer content.</p>
-                            </div>
-                            <hr class="clearfix w-100 d-md-none pb-3">
-                            <div class="col-md-3 mb-md-0 mb-3">
-                                <h5 class="text-uppercase">Links</h5>
-                                <ul class="list-unstyled">
-                                    <li>
-                                        <a href="#!">Link 1</a>
-                                    </li>
-                                    <li>
-                                        <a href="#!">Link 2</a>
-                                    </li>
-                                    <li>
-                                        <a href="#!">Link 3</a>
-                                    </li>
-                                    <li>
-                                        <a href="#!">Link 4</a>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="col-md-3 mb-md-0 mb-3">
-                                <h5 class="text-uppercase">Links</h5>
-                                <ul class="list-unstyled">
-                                    <li>
-                                        <a href="#!">Link 1</a>
-                                    </li>
-                                    <li>
-                                        <a href="#!">Link 2</a>
-                                    </li>
-                                    <li>
-                                        <a href="#!">Link 3</a>
-                                    </li>
-                                    <li>
-                                        <a href="#!">Link 4</a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="footer-copyright text-center py-3">
-                        © 2020 Copyright:
-                        <a href="https://mdbootstrap.com/">LongKame</a>
-                    </div>
-                </footer>
-            </div>
-        </footer>*@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>

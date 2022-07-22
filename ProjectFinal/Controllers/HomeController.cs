@@ -20,14 +20,30 @@ namespace ProjectFinal.Controllers
             _logger = logger;
         }
 
-        public IActionResult Index(int? i)
+        public IActionResult Index(int? page)
         {
+
             ShoppingwebContext context = new ShoppingwebContext();
             List<Product> list = context.Products.ToList();
-            list = (List<Product>)(from product in context.Products
-                                   select product).ToList();
-            ViewBag.Data = list;
-            return View(list);
+            var data = context.Products.ToList();
+            if (page > 0)
+            {
+                page = page;
+            }
+            else
+            {
+                page = 1;
+            }
+            int limit = 2;
+            int start = (int)(page - 1) * limit;
+            int totalProduct = data.Count();
+            ViewBag.totalProduct = totalProduct;
+            ViewBag.pageCurrent = page;
+            float numberPage = (totalProduct / limit);
+            //ViewBag.Data = list;
+            ViewBag.numberPage = (int)Math.Ceiling(numberPage) + 1;
+            var dataPro = data.OrderBy(s => s.Id).Skip(start).Take(limit);
+            return View(dataPro.ToList());
         }
 
         public IActionResult Detail(int? id)
@@ -110,6 +126,7 @@ namespace ProjectFinal.Controllers
                 {
                     total += (double)i.Price * i.Quantity;
                 }
+                ViewBag.Total = total;
             }
             else
             {
@@ -147,6 +164,171 @@ namespace ProjectFinal.Controllers
 
             return RedirectToAction("ViewCart");
         }
+
+        public IActionResult CRUD()
+        {
+            ShoppingwebContext context = new ShoppingwebContext();
+            var list = (from a in context.Products
+                        select a).ToList();
+            return View(list);
+        }
+
+        public IActionResult Login()
+        {
+            return View();
+        }
+
+        public IActionResult Search(string? search, int? pageSearch)
+        {
+
+            ShoppingwebContext context = new ShoppingwebContext();
+            List<Product> list = context.Products.ToList();
+            var result = new List<Product>();
+            if (pageSearch > 0)
+            {
+                pageSearch = pageSearch;
+            }
+            else
+            {
+                pageSearch = 1;
+            }
+
+            if (search == null)
+            {
+                ViewBag.NoResult = "Not Found";
+            }
+            else
+            {
+                result = (from a in context.Products
+                          where a.ProductName.ToLower().Contains(search.ToLower())
+                          select a).ToList();
+                ViewBag.Result = result;
+            }
+            int limit = 3;
+            int start = (int)(pageSearch - 1) * limit;
+            int totalProduct = result.Count();
+            ViewBag.totalProductSearch = totalProduct;
+            ViewBag.pageCurrentSearch = pageSearch;
+            float numberPage = (totalProduct / limit);
+            ViewBag.numberPageSearch = (int)Math.Ceiling(numberPage) + 1;
+            var dataPro = result.OrderBy(s => s.Id).Skip(start).Take(limit);
+            return View(result);
+        }
+
+        public IActionResult Add()
+        {
+            List<Category> list = null;
+            using (var context = new ShoppingwebContext())
+            {
+                list = context.Categories.ToList();
+            }
+            ViewBag.Cate = list;
+            return View();
+        }
+
+        public IActionResult DoAdd(Product newProduct)
+        {
+            Product product = new Product();
+            using (var context = new ShoppingwebContext())
+            {
+                context.Products.Add(newProduct);
+                context.SaveChanges();
+            }
+            return RedirectToAction("CRUD");
+        }
+
+        public IActionResult Edit(int? id)
+        {
+            List<Category> list = null;
+            Product product = null;
+            using (var context = new ShoppingwebContext())
+            {
+                list = context.Categories.ToList();
+                product = context.Products.FirstOrDefault(x => x.Id == id);
+            }
+            ViewBag.Cate = list;
+            return View(product);
+        }
+
+        public IActionResult DoEdit(Product newProduct)
+        {
+            using (var context = new ShoppingwebContext())
+            {
+                Product pro = context.Products.SingleOrDefault(x => x.Id == newProduct.Id);
+                pro.ProductName = newProduct.ProductName;
+                pro.Image = newProduct.Image;
+                pro.Quantity = newProduct.Quantity;
+                pro.Price = newProduct.Price;
+                pro.IdCategory = newProduct.IdCategory;
+                pro.Description = newProduct.Description;
+                context.SaveChanges();
+            }
+            return RedirectToAction("CRUD");
+        }
+
+        public IActionResult Delete(int? id)
+        {
+            List<Category> list = null;
+            Product product = null;
+            using (var context = new ShoppingwebContext())
+            {
+                product = context.Products.FirstOrDefault(x => x.Id == id);
+                context.Products.Remove(product);
+                context.SaveChanges();
+            }
+            ViewBag.Cate = list;
+            return RedirectToAction("CRUD");
+        }
+
+
+        public IActionResult DoSignIn(Account account)
+        {
+
+            //string? json = HttpContext.Session.GetString("addCart");
+
+            //json = JsonConvert.SerializeObject(list);
+            //HttpContext.Session.SetString("addCart", json);
+
+            var context = new ShoppingwebContext();
+            Account acc = new Account();
+            if (account == null)
+            {
+                return RedirectToAction("Login");
+            }
+            else
+            {
+                acc = context.Accounts.FirstOrDefault(x => x.Email.Equals(account.Email) && x.Password.Equals(account.Password));
+                var username = JsonConvert.SerializeObject(acc.Username);
+                HttpContext.Session.SetString("username", username);
+                return RedirectToAction("Index");
+            }
+        }
+
+        public IActionResult DoSignUp(Account accup)
+        {
+            if (accup == null)
+            {
+
+            }
+            else
+            {
+                using (var context = new ShoppingwebContext())
+                {
+                    accup.IdRole = 2;
+                    context.Accounts.Add(accup);
+                    context.SaveChanges();
+                }
+            }
+            //Product product = new Product();
+            //using (var context = new ShoppingwebContext())
+            //{
+            //    context.Products.Add(newProduct);
+            //    context.SaveChanges();
+            //}
+            return RedirectToAction("Index");
+
+        }
+
 
         public IActionResult Privacy()
         {

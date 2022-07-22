@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Computer\\source\\repos\\ProjectFinal\\ProjectFinal\\ProjectFinal.csproj": {}
+    "C:\\Users\\Computer\\Desktop\\ShoppingWeb\\ProjectFinal\\ProjectFinal.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Computer\\source\\repos\\ProjectFinal\\ProjectFinal\\ProjectFinal.csproj": {
+    "C:\\Users\\Computer\\Desktop\\ShoppingWeb\\ProjectFinal\\ProjectFinal.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Computer\\source\\repos\\ProjectFinal\\ProjectFinal\\ProjectFinal.csproj",
+        "projectUniqueName": "C:\\Users\\Computer\\Desktop\\ShoppingWeb\\ProjectFinal\\ProjectFinal.csproj",
         "projectName": "ProjectFinal",
-        "projectPath": "C:\\Users\\Computer\\source\\repos\\ProjectFinal\\ProjectFinal\\ProjectFinal.csproj",
+        "projectPath": "C:\\Users\\Computer\\Desktop\\ShoppingWeb\\ProjectFinal\\ProjectFinal.csproj",
         "packagesPath": "C:\\Users\\Computer\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Computer\\source\\repos\\ProjectFinal\\ProjectFinal\\obj\\",
+        "outputPath": "C:\\Users\\Computer\\Desktop\\ShoppingWeb\\ProjectFinal\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Computer\\AppData\\Roaming\\NuGet\\NuGet.Config",

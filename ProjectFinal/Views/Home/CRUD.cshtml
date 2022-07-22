@@ -7,6 +7,7 @@
 @using ProjectFinal.Models
 @model List<Product>
 
+
 <style>
     table {
         font-family: arial, sans-serif;
@@ -27,13 +28,18 @@
     }
 </style>
 
+<button style="margin-left:50%;margin-top:1%" type="button" class="btn btn-success">
+    <a href="/Home/Add">Add New</a>
+</button>
 <table>
     <tr>
         <th>Product Name</th>
         <th>Image</th>
         <th>Quantity</th>
         <th>Price</th>
-        <th>Action</th>
+        <th>Description</th>
+        <th>Delete</th>
+        <th>Update</th>
     </tr>
     @foreach (Product p in Model)
     {
@@ -41,9 +47,14 @@
             <td>@p.ProductName</td>
             <td><img src="@p.Image" width="50" height="60"></td>
             <td>@p.Quantity</td>
-            <td>@p.Price</td>
-            <td><a href="/Home/RemoveCart/@p.Id">Remove</a></td>
+            <td>
+                @p.Price
+            </td>
+            <td>@p.Description</td>
+            <td>
+                <a href="/Home/Delete/@p.Id">Delete<a>
+            </td>
+            <td><a href="/Home/Edit/@p.Id">Update<a></td>
         </tr>
     }
 </table>
-<h3>Total: @ViewBag.Total</h3>

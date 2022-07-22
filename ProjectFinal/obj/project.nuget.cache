@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "n2eKPubFg7DfaUUVJPWPI3c6RTJgMPVYdMWj9bUzg5SlPzB6LWqx+WY9PKlzUl+4eC1VZFt3fIwPG7ROAsR7tw==",
+  "dgSpecHash": "vjKwpVh3JmGp9d1SEBpZP40A/veQwh+aSo1UJiRMz82cLanL4VBwMfnPA/LNygnoexpCZKMaPZYeMfDXPdZTFQ==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Computer\\source\\repos\\ProjectFinal\\ProjectFinal\\ProjectFinal.csproj",
+  "projectFilePath": "C:\\Users\\Computer\\Desktop\\ShoppingWeb\\ProjectFinal\\ProjectFinal.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Computer\\.nuget\\packages\\bootstrap\\4.5.0\\bootstrap.4.5.0.nupkg.sha512",
     "C:\\Users\\Computer\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
