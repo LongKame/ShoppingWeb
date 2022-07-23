@@ -27,14 +27,13 @@
     <nav aria-label="...">
         <ul class="pagination">
             @{
-                int numberPage = (int)ViewBag.numberPageSearch;
+                int numberPage = ViewBag.numberPageSearch;
                 int pageCurrent = ViewBag.pageCurrentSearch;
 
                 if (pageCurrent > 1)
                 {
                     int prePage = pageCurrent - 1;
                     <li class="active" style="background-color: cornflowerblue"><a class="page-link" href="?page=@prePage">Previous</a></li>
-
                 }
 
                 int i;
@@ -45,7 +44,6 @@
                         <li class="page-item active">
                             <a class="page-link" href="?page=@i">@i<span class="sr-only">(current)</span></a>
                         </li>
-                        @*<li class="active" style="background-color: cornflowerblue"><a class="page-link" href="?page=@i">@i</a></li>*@
                     }
                     else
                     {
@@ -57,7 +55,6 @@
                 {
                     int nextPage = pageCurrent + 1;
                     <li class="active" style="background-color: cornflowerblue"><a class="page-link" href="?page=@nextPage">Next</a></li>
-
                 }
             }
         </ul>

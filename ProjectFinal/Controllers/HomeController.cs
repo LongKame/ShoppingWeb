@@ -22,7 +22,6 @@ namespace ProjectFinal.Controllers
 
         public IActionResult Index(int? page)
         {
-
             ShoppingwebContext context = new ShoppingwebContext();
             List<Product> list = context.Products.ToList();
             var data = context.Products.ToList();
@@ -40,7 +39,6 @@ namespace ProjectFinal.Controllers
             ViewBag.totalProduct = totalProduct;
             ViewBag.pageCurrent = page;
             float numberPage = (totalProduct / limit);
-            //ViewBag.Data = list;
             ViewBag.numberPage = (int)Math.Ceiling(numberPage) + 1;
             var dataPro = data.OrderBy(s => s.Id).Skip(start).Take(limit);
             return View(dataPro.ToList());
@@ -59,11 +57,8 @@ namespace ProjectFinal.Controllers
             List<Product> list = new List<Product>();
             ShoppingwebContext context = new ShoppingwebContext();
             Product pro = new Product();
-
             Product product = context.Products.FirstOrDefault(x => x.Id == cart.Id);
             string? json = HttpContext.Session.GetString("addCart");
-
-
             bool check = true;
             if (json != null)
             {
@@ -95,7 +90,6 @@ namespace ProjectFinal.Controllers
                         i.Price = product.Price;
                         i.Quantity += cart.Quantity;
                         check = false;
-                        //list.Add(pro);
                     }
                 }
                 if (check == true)
@@ -108,7 +102,6 @@ namespace ProjectFinal.Controllers
                     list.Add(pro);
                 }
             }
-
             json = JsonConvert.SerializeObject(list);
             HttpContext.Session.SetString("addCart", json);
             return RedirectToAction("ViewCart");
@@ -161,7 +154,6 @@ namespace ProjectFinal.Controllers
                 json = JsonConvert.SerializeObject(list);
                 HttpContext.Session.SetString("addCart", json);
             }
-
             return RedirectToAction("ViewCart");
         }
 
@@ -180,7 +172,6 @@ namespace ProjectFinal.Controllers
 
         public IActionResult Search(string? search, int? pageSearch)
         {
-
             ShoppingwebContext context = new ShoppingwebContext();
             List<Product> list = context.Products.ToList();
             var result = new List<Product>();
@@ -283,12 +274,6 @@ namespace ProjectFinal.Controllers
 
         public IActionResult DoSignIn(Account account)
         {
-
-            //string? json = HttpContext.Session.GetString("addCart");
-
-            //json = JsonConvert.SerializeObject(list);
-            //HttpContext.Session.SetString("addCart", json);
-
             var context = new ShoppingwebContext();
             Account acc = new Account();
             if (account == null)
@@ -299,9 +284,18 @@ namespace ProjectFinal.Controllers
             {
                 acc = context.Accounts.FirstOrDefault(x => x.Email.Equals(account.Email) && x.Password.Equals(account.Password));
                 var username = JsonConvert.SerializeObject(acc.Username);
+                var act = JsonConvert.SerializeObject(acc);
                 HttpContext.Session.SetString("username", username);
+                HttpContext.Session.SetString("act", act);
                 return RedirectToAction("Index");
             }
+        }
+
+        public IActionResult SignOut()
+        {
+            HttpContext.Session.Remove("username");
+            HttpContext.Session.Remove("act");
+            return RedirectToAction("Index");
         }
 
         public IActionResult DoSignUp(Account accup)
@@ -319,14 +313,7 @@ namespace ProjectFinal.Controllers
                     context.SaveChanges();
                 }
             }
-            //Product product = new Product();
-            //using (var context = new ShoppingwebContext())
-            //{
-            //    context.Products.Add(newProduct);
-            //    context.SaveChanges();
-            //}
             return RedirectToAction("Index");
-
         }
 
 
