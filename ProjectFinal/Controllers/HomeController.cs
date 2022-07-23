@@ -330,14 +330,31 @@ namespace ProjectFinal.Controllers
             string? cart = HttpContext.Session.GetString("addCart");
             var list = JsonConvert.DeserializeObject<List<Product>>(cart);
             OrderDetail orderDetail = new OrderDetail();
-            HttpContext.Session.Remove("cart");
+
+            var listInsertproductvalue = new List<OrderDetail>(); //you creating list of your entities
+
             foreach (var i in list)
             {
-                orderDetail.IdProduct = i.Id;
-                orderDetail.Quantity = i.Quantity;
-                context.OrderDetails.Add(orderDetail);
-                context.SaveChanges();
+                listInsertproductvalue.Add(new OrderDetail
+                {
+                    IdProduct = i.Id,
+                    Quantity = i.Quantity
+                });
             }
+
+            context.OrderDetails.AddRange(listInsertproductvalue); //here you add all new entities to context
+            context.SaveChanges();
+
+            //foreach (var i in list)
+            //{
+            //    orderDetail.IdProduct = i.Id;
+            //    orderDetail.Quantity = i.Quantity;
+            //    context.OrderDetails.Add(orderDetail);
+            //    context.SaveChanges();
+            //    context.Remove();
+            //}
+
+            HttpContext.Session.Remove("addCart");
             return RedirectToAction("Index");
         }
 
