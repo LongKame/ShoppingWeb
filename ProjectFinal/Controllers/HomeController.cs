@@ -33,7 +33,7 @@ namespace ProjectFinal.Controllers
             {
                 page = 1;
             }
-            int limit = 2;
+            int limit = 6;
             int start = (int)(page - 1) * limit;
             int totalProduct = data.Count();
             ViewBag.totalProduct = totalProduct;
@@ -54,6 +54,14 @@ namespace ProjectFinal.Controllers
 
         public IActionResult Cart(Product cart)
         {
+            string? username = HttpContext.Session.GetString("username");
+
+            if (username == null)
+            {
+                return RedirectToAction("Login");
+            }
+
+
             List<Product> list = new List<Product>();
             ShoppingwebContext context = new ShoppingwebContext();
             Product pro = new Product();
@@ -312,6 +320,23 @@ namespace ProjectFinal.Controllers
                     context.Accounts.Add(accup);
                     context.SaveChanges();
                 }
+            }
+            return RedirectToAction("Index");
+        }
+
+        public IActionResult Checkout()
+        {
+            ShoppingwebContext context = new ShoppingwebContext();
+            string? cart = HttpContext.Session.GetString("addCart");
+            var list = JsonConvert.DeserializeObject<List<Product>>(cart);
+            OrderDetail orderDetail = new OrderDetail();
+            HttpContext.Session.Remove("cart");
+            foreach (var i in list)
+            {
+                orderDetail.IdProduct = i.Id;
+                orderDetail.Quantity = i.Quantity;
+                context.OrderDetails.Add(orderDetail);
+                context.SaveChanges();
             }
             return RedirectToAction("Index");
         }

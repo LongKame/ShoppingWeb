@@ -1,7 +1,9 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
-
+@{
+    Layout = null;
+}
 <style>
     body {
         margin: 0;
@@ -60,7 +62,7 @@
 
     button {
         width: 60%;
-        height: 40px;
+        height: 100px;
         margin: 10px auto;
         justify-content: center;
         display: block;
@@ -119,7 +121,7 @@
         </form>
     </div>
 
-    <div class="login" >
+    <div class="login">
         <form action="/Home/DoSignIn">
             <label for="chk" aria-hidden="true">Login</label>
             <input type="email" name="account.Email" placeholder="Email" required="">

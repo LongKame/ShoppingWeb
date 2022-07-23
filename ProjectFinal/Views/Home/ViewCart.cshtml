@@ -35,8 +35,9 @@
         <th>Price</th>
         <th>Action</th>
     </tr>
-    @foreach (Product p in Model)
-    {
+    <form action="/Home/Checkout">
+        @foreach (Product p in Model)
+        {
         <tr>
             <td>@p.ProductName</td>
             <td><img src="@p.Image" width="50" height="60"></td>
@@ -45,5 +46,10 @@
             <td><a href="/Home/RemoveCart/@p.Id">Remove</a></td>
         </tr>
     }
-</table>
-<h3>Total: @ViewBag.Total</h3>
+        <input type="submit" value="Checkout" />
+        </form>
+
+    </table>
+    <h3>Total: @ViewBag.Total</h3>
+
+    <button><a href="/Home/Checkout">Checkout</a></button>
