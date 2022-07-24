@@ -55,12 +55,10 @@ namespace ProjectFinal.Controllers
         public IActionResult Cart(Product cart)
         {
             string? username = HttpContext.Session.GetString("username");
-
             if (username == null)
             {
                 return RedirectToAction("Login");
             }
-
 
             List<Product> list = new List<Product>();
             ShoppingwebContext context = new ShoppingwebContext();
@@ -139,7 +137,6 @@ namespace ProjectFinal.Controllers
         public IActionResult RemoveCart(int? id)
         {
             List<Product> list = new List<Product>();
-            bool check = true;
             string? json = HttpContext.Session.GetString("addCart");
             if (json != null)
             {
@@ -329,8 +326,6 @@ namespace ProjectFinal.Controllers
             ShoppingwebContext context = new ShoppingwebContext();
             string? cart = HttpContext.Session.GetString("addCart");
             var list = JsonConvert.DeserializeObject<List<Product>>(cart);
-            OrderDetail orderDetail = new OrderDetail();
-
             var listInsertproductvalue = new List<OrderDetail>(); //you creating list of your entities
 
             foreach (var i in list)
@@ -341,19 +336,8 @@ namespace ProjectFinal.Controllers
                     Quantity = i.Quantity
                 });
             }
-
             context.OrderDetails.AddRange(listInsertproductvalue); //here you add all new entities to context
             context.SaveChanges();
-
-            //foreach (var i in list)
-            //{
-            //    orderDetail.IdProduct = i.Id;
-            //    orderDetail.Quantity = i.Quantity;
-            //    context.OrderDetails.Add(orderDetail);
-            //    context.SaveChanges();
-            //    context.Remove();
-            //}
-
             HttpContext.Session.Remove("addCart");
             return RedirectToAction("Index");
         }
