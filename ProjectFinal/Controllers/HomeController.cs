@@ -326,17 +326,19 @@ namespace ProjectFinal.Controllers
             ShoppingwebContext context = new ShoppingwebContext();
             string? cart = HttpContext.Session.GetString("addCart");
             var list = JsonConvert.DeserializeObject<List<Product>>(cart);
-            var listInsertproductvalue = new List<OrderDetail>(); //you creating list of your entities
-
+            var listInsertproductvalue = new List<CheckOut>(); //you creating list of your entities
+            string? account = HttpContext.Session.GetString("act");
+            var acc = JsonConvert.DeserializeObject<Account>(account);
             foreach (var i in list)
             {
-                listInsertproductvalue.Add(new OrderDetail
+                listInsertproductvalue.Add(new CheckOut
                 {
                     IdProduct = i.Id,
+                    IdAccount = acc.Id,
                     Quantity = i.Quantity
                 });
             }
-            context.OrderDetails.AddRange(listInsertproductvalue); //here you add all new entities to context
+            context.CheckOuts.AddRange(listInsertproductvalue); //here you add all new entities to context
             context.SaveChanges();
             HttpContext.Session.Remove("addCart");
             return RedirectToAction("Index");
